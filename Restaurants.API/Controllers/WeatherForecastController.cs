@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Restaurants.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    //[Route("[controller]")] // this will set defult route to /WeatherForecast (controller name).
+    //[Route("api/[controller]")] // this will set api before to the controller name.
+    [Route("api/weatherResult")] // custom route
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
