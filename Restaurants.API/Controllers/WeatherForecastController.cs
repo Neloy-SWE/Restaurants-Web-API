@@ -8,12 +8,12 @@ namespace Restaurants.API.Controllers
     [Route("api/weatherResult")] // custom route
 
     // initialize object useing dependency injection
-    public class WeatherForecastController(ILogger<WeatherForecastController> logger, WeatherForecastService weatherForecastService) : ControllerBase
+    public class WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherForecastService weatherForecastService) : ControllerBase
     {
         private readonly ILogger<WeatherForecastController> _logger = logger;
 
         //private readonly WeatherForecastService _weatherForecastService = new();
-        private readonly WeatherForecastService _weatherForecastService = weatherForecastService;
+        private readonly IWeatherForecastService _weatherForecastService = weatherForecastService;
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()

@@ -1,6 +1,11 @@
 ﻿namespace Restaurants.API.Controllers
 {
-    public class WeatherForecastService
+
+    public interface IWeatherForecastService
+    {
+        IEnumerable<WeatherForecast> Get();
+    }
+    public class WeatherForecastService : IWeatherForecastService
     {
         private static readonly string[] Summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
         public IEnumerable<WeatherForecast> Get()
