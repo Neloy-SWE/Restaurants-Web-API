@@ -2,6 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Restaurants.API.Controllers
 {
+
+    public class TemperatureRequest
+    {
+        public int Min { get; set; }
+        public int Max { get; set; }
+    }
+
+
     [ApiController]
     //[Route("[controller]")] // this will set defult route to /WeatherForecast (controller name).
     //[Route("api/[controller]")] // this will set api before to the controller name.
@@ -15,29 +23,50 @@ namespace Restaurants.API.Controllers
         //private readonly WeatherForecastService _weatherForecastService = new();
         private readonly IWeatherForecastService _weatherForecastService = weatherForecastService;
 
-        [HttpGet]
-        [Route("list")]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            return _weatherForecastService.Get();
-        }
+        //[HttpGet]
+        //[Route("list")]
+        //public IEnumerable<WeatherForecast> Get()
+        //{
+        //    return _weatherForecastService.Get();
+        //}
 
-        [HttpGet("CurrentDay")]
-        public WeatherForecast GetCurrentDayForecast()
-        {
-            return _weatherForecastService.Get().First();
-        }
+        //[HttpGet("CurrentDay")]
+        ////public ObjectResult GetCurrentDayForecast()
+        //public IActionResult GetCurrentDayForecast()
+        //{
+        //    //return _weatherForecastService.Get().First();
+        //    var result = _weatherForecastService.Get().First();
 
-        [HttpGet("{take}/check")] // we can use the value of "take" only if we add parameter with the same name. 
-        public void Check([FromQuery] int max, [FromRoute] int take)
-        {
-            Console.WriteLine("max: ", max, "take: ", take);
-        }
+        //    // check the use of status code with ObjectResult
+        //    //return StatusCode(400, result);
 
-        [HttpPost("CheckName")]
-        public string CheckName([FromBody] string name)
+        //    // use something built in
+        //    //return BadRequest(result);
+
+        //    return Ok(result);
+        //}
+
+        //[HttpGet("{take}/check")] // we can use the value of "take" only if we add parameter with the same name. 
+        //public void Check([FromQuery] int max, [FromRoute] int take)
+        //{
+        //    Console.WriteLine("max: ", max, "take: ", take);
+        //}
+
+        //[HttpPost("CheckName")]
+        //public string CheckName([FromBody] string name)
+        //{
+        //    return $"Hello {name}";
+        //}
+
+        [HttpPost("generate")]
+        public IActionResult Generate([FromQuery] int count, [FromBody] TemperatureRequest temperatureRequest)
         {
-            return $"Hello {name}";
+            if (count < 0 || temperatureRequest.Max < temperatureRequest.Min)
+            {
+                return BadRequest("Count has to be positive number, and max must be greater than the min value");
+            }
+            var result = _weatherForecastService.Get(count, temperatureRequest.Min, temperatureRequest.Max);
+            return Ok(result);
         }
     }
 }

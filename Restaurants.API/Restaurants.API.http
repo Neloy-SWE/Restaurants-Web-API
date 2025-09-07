@@ -19,3 +19,14 @@ Content-Type: application/json
 "Neloy"
 
 ###
+
+@count=15
+POST {{Restaurants.API_HostAddress}}/api/weatherResult/generate?count={{count}}
+Content-Type: application/json
+
+{
+  "min": -23,
+  "max": 23
+}
+
+###
