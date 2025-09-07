@@ -1,6 +1,21 @@
-@Restaurants.API_HostAddress = http://localhost:5225
+@Restaurants.API_HostAddress = https://localhost:7108
 
-GET {{Restaurants.API_HostAddress}}/api/weatherResult/
-Accept: application/json
+GET {{Restaurants.API_HostAddress}}/api/weatherResult/list
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/weatherResult/CurrentDay
+
+###
+
+@max=0
+GET {{Restaurants.API_HostAddress}}/api/weatherResult/15/check?max={{max}}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/weatherResult/CheckName
+Content-Type: application/json
+
+"Neloy"
 
 ###

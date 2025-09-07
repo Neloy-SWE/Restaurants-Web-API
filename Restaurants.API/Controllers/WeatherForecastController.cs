@@ -15,10 +15,29 @@ namespace Restaurants.API.Controllers
         //private readonly WeatherForecastService _weatherForecastService = new();
         private readonly IWeatherForecastService _weatherForecastService = weatherForecastService;
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
+        [Route("list")]
         public IEnumerable<WeatherForecast> Get()
         {
             return _weatherForecastService.Get();
+        }
+
+        [HttpGet("CurrentDay")]
+        public WeatherForecast GetCurrentDayForecast()
+        {
+            return _weatherForecastService.Get().First();
+        }
+
+        [HttpGet("{take}/check")] // we can use the value of "take" only if we add parameter with the same name. 
+        public void Check([FromQuery] int max, [FromRoute] int take)
+        {
+            Console.WriteLine("max: ", max, "take: ", take);
+        }
+
+        [HttpPost("CheckName")]
+        public string CheckName([FromBody] string name)
+        {
+            return $"Hello {name}";
         }
     }
 }
