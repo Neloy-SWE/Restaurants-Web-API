@@ -6,15 +6,14 @@ namespace Restaurants.API.Controllers
     //[Route("[controller]")] // this will set defult route to /WeatherForecast (controller name).
     //[Route("api/[controller]")] // this will set api before to the controller name.
     [Route("api/weatherResult")] // custom route
-    public class WeatherForecastController : ControllerBase
-    {
-        private readonly ILogger<WeatherForecastController> _logger;
-        private readonly WeatherForecastService _weatherForecastService = new();
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
+    // initialize object useing dependency injection
+    public class WeatherForecastController(ILogger<WeatherForecastController> logger, WeatherForecastService weatherForecastService) : ControllerBase
+    {
+        private readonly ILogger<WeatherForecastController> _logger = logger;
+
+        //private readonly WeatherForecastService _weatherForecastService = new();
+        private readonly WeatherForecastService _weatherForecastService = weatherForecastService;
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
