@@ -1,32 +1,3 @@
 @Restaurants.API_HostAddress = https://localhost:7108
 
-GET {{Restaurants.API_HostAddress}}/api/weatherResult/list
 
-###
-
-GET {{Restaurants.API_HostAddress}}/api/weatherResult/CurrentDay
-
-###
-
-@max=0
-GET {{Restaurants.API_HostAddress}}/api/weatherResult/15/check?max={{max}}
-
-###
-
-POST {{Restaurants.API_HostAddress}}/api/weatherResult/CheckName
-Content-Type: application/json
-
-"Neloy"
-
-###
-
-@count=15
-POST {{Restaurants.API_HostAddress}}/api/weatherResult/generate?count={{count}}
-Content-Type: application/json
-
-{
-  "min": -23,
-  "max": 23
-}
-
-###
