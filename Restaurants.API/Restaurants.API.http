@@ -6,6 +6,24 @@ GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants/1
+GET {{Restaurants.API_HostAddress}}/api/restaurants/2
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+  "Name" : "OK Chilly",
+"Description" : "Best coffee from all tong",
+"Category" : "French",
+"HasDelivery" : true,
+"ContactEmail" : "chgmail",
+"ContactNumber" : "01444223366",
+"City" : "Dhaka",
+"Street" : "Gulshan 1",
+"PostalCode" : "123456"
+
+}
 
 ###
