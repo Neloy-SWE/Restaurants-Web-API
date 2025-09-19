@@ -1,26 +1,32 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants;
+using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
+using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
+using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 using Restaurants.Application.Restaurants.Dtos;
+using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
+using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 
 namespace Restaurants.API.Controllers
 {
     [ApiController]
     [Route("api/restaurants")]
-    public class RestaurantsController(IRestaurantsService restaurantsService, IValidator<CreateRestaurantDto> validator) : ControllerBase
+    public class RestaurantsController(IMediator mediator/*, IValidator validator*/) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var rastaurants = await restaurantsService.GetAllRestaurants();
+            var rastaurants = await mediator.Send(new GetAllRestaurantsQuery());
             return Ok(rastaurants);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var restaurant = await restaurantsService.GetById(id);
+            var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id: id));
             if (restaurant is null)
             {
                 return NotFound();
@@ -32,7 +38,7 @@ namespace Restaurants.API.Controllers
         [HttpPost]
         //public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantDto createRestaurantDto)
         // by default sent json body will convert to the dto class. no need to explicitly add [FromBody]
-        public async Task<IActionResult> CreateRestaurant(CreateRestaurantDto createRestaurantDto)
+        public async Task<IActionResult> CreateRestaurant(CreateRestaurantCommand command)
         {
 
             //using this condition we can validate the model also. but defualt is good enough
@@ -41,20 +47,73 @@ namespace Restaurants.API.Controllers
             //    return BadRequest(ModelState);
             //}
 
-            ValidationResult result = await validator.ValidateAsync(createRestaurantDto);
-            if (!result.IsValid)
-            {
-                var problemDetails = new HttpValidationProblemDetails(result.ToDictionary())
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Title = "Incorrect details",
-                };
+            //ValidationResult result = await validator.ValidateAsync((IValidationContext)command);
+            //if (!result.IsValid)
+            //{
+            //    var problemDetails = new HttpValidationProblemDetails(result.ToDictionary())
+            //    {
+            //        Status = StatusCodes.Status400BadRequest,
+            //        Title = "Incorrect details",
+            //    };
 
-                return BadRequest(problemDetails);
+            //    return BadRequest(problemDetails);
+            //}
+            try
+            {
+                int id = await mediator.Send(command);
+                return CreatedAtAction(nameof(GetById), new { id }, id);
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Errors);
             }
 
-            int id = await restaurantsService.Create(createRestaurantDto);
-            return CreatedAtAction(nameof(GetById), new {id}, null);
+            //return CreatedAtAction(nameof(GetById), new {id}, null);
+
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRestaurant([FromRoute] int id)
+        {
+            var isDeleted = await mediator.Send(new DeleteRestaurantCommand(id: id));
+            if (isDeleted)
+            {
+                return NoContent();
+            }
+            return NotFound();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateRestaurant([FromRoute] int id, UpdateRestaurantCommand command)
+        {
+            try
+            {
+                command.Id = id;
+
+                //ValidationResult result = await validator.ValidateAsync((IValidationContext)command);
+                //if (!result.IsValid)
+                //{
+                //    var problemDetails = new HttpValidationProblemDetails(result.ToDictionary())
+                //    {
+                //        Status = StatusCodes.Status400BadRequest,
+                //        Title = "Incorrect details",
+                //    };
+
+                //    return BadRequest(problemDetails);
+                //}
+
+                var isUpdated = await mediator.Send(command);
+                if (isUpdated)
+                {
+                    return NoContent();
+                }
+                return NotFound();
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(e.Errors);
+            }
+
         }
     }
 }

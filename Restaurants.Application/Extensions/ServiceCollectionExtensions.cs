@@ -33,7 +33,7 @@ namespace Restaurants.Application.Extensions
             //services.AddValidatorsFromAssemblyContaining<CreateRestaurantCommandValidator>();
             //services.AddValidatorsFromAssemblyContaining<UpdateRestaurantCommandValidator>();
             //services.AddFluentValidationAutoValidation(); // not working
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
     }
 }

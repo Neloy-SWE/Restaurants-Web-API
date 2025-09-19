@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Restaurants.Application.Restaurants.Validators
 {
-    public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
+    public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull
     {
         public async Task<TResponse> Handle(

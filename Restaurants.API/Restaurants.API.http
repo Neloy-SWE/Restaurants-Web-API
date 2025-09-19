@@ -6,7 +6,7 @@ GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants/2
+GET {{Restaurants.API_HostAddress}}/api/restaurants/1
 
 ###
 
@@ -14,7 +14,7 @@ POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
-  "Name" : "OK Chilly",
+"Name" : "as",
 "Description" : "Best coffee from all tong",
 "Category" : "French",
 "HasDelivery" : true,
@@ -24,6 +24,20 @@ Content-Type: application/json
 "Street" : "Gulshan 1",
 "PostalCode" : "123456"
 
+}
+
+###
+
+@id=18
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+PATCH {{Restaurants.API_HostAddress}}/api/restaurants/2
+Content-Type: application/json
+
+{
+  "Name" : ""
 }
 
 ###
