@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Dishes.Dtos;
-using Restaurants.Application.Restaurants;
+using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
+using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 using Restaurants.Application.Restaurants.Dtos;
-using FluentValidation;
+using Restaurants.Application.Restaurants.Validators;
 
 
 namespace Restaurants.Application.Extensions
@@ -11,7 +14,11 @@ namespace Restaurants.Application.Extensions
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IRestaurantsService, RestaurantsService>();
+
+            var applicationAssembly = typeof(ServiceCollectionExtensions).Assembly;
+
+            //services.AddScoped<IRestaurantsService, RestaurantsService>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
             services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<RestaurantsProfile>();
@@ -20,7 +27,13 @@ namespace Restaurants.Application.Extensions
             );
 
             //services.AddScoped<IValidator<CreateRestaurantDto>, CreateRestaurantDtoValidator>();
-            services.AddValidatorsFromAssembly(typeof(ServiceCollectionExtensions).Assembly, includeInternalTypes: true);
+            services.AddValidatorsFromAssembly(applicationAssembly);
+
+
+            //services.AddValidatorsFromAssemblyContaining<CreateRestaurantCommandValidator>();
+            //services.AddValidatorsFromAssemblyContaining<UpdateRestaurantCommandValidator>();
+            //services.AddFluentValidationAutoValidation(); // not working
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         }
     }
 }
