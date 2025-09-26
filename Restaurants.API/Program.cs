@@ -13,9 +13,13 @@ builder.Services.AddControllers();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Host.UseSerilog((context, configuration) =>
-configuration.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-.MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
-.WriteTo.Console(outputTemplate: "[{Timestamp:dd-MM-yyyy hh:mm:ss tt} {newLine}{Level:u3}] |{SourceContext}| {newLine}{Message:lj}{NewLine}{Exception}{newLine}{newLine}{newLine}")
+//configuration
+//.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+//.MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
+//.WriteTo.File("Logs/Restaurants-API-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
+//.WriteTo.Console(outputTemplate: "[{Timestamp:dd-MM-yyyy hh:mm:ss tt} {newLine}{Level:u3}] |{SourceContext}| {newLine}{Message:lj}{NewLine}{Exception}{newLine}{newLine}{newLine}")
+configuration
+.ReadFrom.Configuration(context.Configuration)
 );
 
 
