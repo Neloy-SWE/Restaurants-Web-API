@@ -28,7 +28,7 @@ namespace Restaurants.Application.Restaurants.Validators
                     
             }
 
-            return await next();
+            return await next(cancellationToken);
         }
     }
 }

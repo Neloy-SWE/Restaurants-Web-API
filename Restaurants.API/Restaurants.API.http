@@ -6,7 +6,7 @@ GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants/1
+GET {{Restaurants.API_HostAddress}}/api/restaurants/10
 
 ###
 
@@ -14,11 +14,11 @@ POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
-"Name" : "as",
+"Name" : "la la",
 "Description" : "Best coffee from all tong",
 "Category" : "French",
 "HasDelivery" : true,
-"ContactEmail" : "chgmail",
+"ContactEmail" : "chgmail@gmai.com",
 "ContactNumber" : "01444223366",
 "City" : "Dhaka",
 "Street" : "Gulshan 1",
@@ -37,7 +37,8 @@ PATCH {{Restaurants.API_HostAddress}}/api/restaurants/2
 Content-Type: application/json
 
 {
-  "Name" : ""
+  "Name" : "Okay cha",
+  "Description" : "No okay cha"
 }
 
 ###
