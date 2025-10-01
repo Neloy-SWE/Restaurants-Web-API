@@ -14,12 +14,12 @@ POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
-"Name" : "la la",
+"Name" : "la",
 "Description" : "Best coffee from all tong",
-"Category" : "French",
+"Category" : "Frenc",
 "HasDelivery" : true,
-"ContactEmail" : "chgmail@gmai.com",
-"ContactNumber" : "01444223366",
+"ContactEmail" : "chgmail",
+"ContactNumber" : "01444223",
 "City" : "Dhaka",
 "Street" : "Gulshan 1",
 "PostalCode" : "123456"
