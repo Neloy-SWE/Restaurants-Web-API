@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Restaurants.Application.Dishes.Dtos;
+using Restaurants.Domain.Exceptions;
 using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Dishes.Queries.GetDishesForRestaurant
@@ -12,7 +13,7 @@ namespace Restaurants.Application.Dishes.Queries.GetDishesForRestaurant
         {
             logger.LogInformation("Getting dishes for restaurant with id: {RestaurantId}", request.RestaurantId);
             var restaurant = await restaurantsRepository.GetByIdAsync(request.RestaurantId)
-                ?? throw new KeyNotFoundException($"Restaurant with id {request.RestaurantId} not found");
+                ?? throw new NotFoundException($"Restaurant with id {request.RestaurantId} not found");
 
             var result = mapper.Map<IEnumerable<DishDto>>(restaurant.Dishes);
 
