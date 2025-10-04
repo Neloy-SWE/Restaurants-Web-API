@@ -2,10 +2,9 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Dishes.Dtos;
-using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
-using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Validators;
+using Restaurants.Application.Users;
 
 
 namespace Restaurants.Application.Extensions
@@ -34,6 +33,8 @@ namespace Restaurants.Application.Extensions
             //services.AddValidatorsFromAssemblyContaining<UpdateRestaurantCommandValidator>();
             //services.AddFluentValidationAutoValidation(); // not working
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddScoped<IUserContext, UserContext>();
+            services.AddHttpContextAccessor();
         }
     }
 }

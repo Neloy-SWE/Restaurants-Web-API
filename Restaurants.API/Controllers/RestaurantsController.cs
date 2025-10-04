@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
@@ -12,9 +13,11 @@ namespace Restaurants.API.Controllers
 {
     [ApiController]
     [Route("api/restaurants")]
+    [Authorize]
     public class RestaurantsController(IMediator mediator/*, IValidator validator*/) : ControllerBase
     {
         [HttpGet]
+        //[AllowAnonymous] // if you want to allow anonymous access to this endpoint, use this attribute
         //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RestaurantDto>))]
         public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll()
         {
